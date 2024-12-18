@@ -167,8 +167,8 @@ sh run.sh org.jag.UsingSetIntersection /Users/vishnuch/work/gitcode/join_and_gro
 | Set Intersection using sketches           |   99 v   | Fastest,~ 3.9 % error,is tolerable!  |
 +-------------------------------------------+----------+--------------------------------------+
 ```
-Thats a **58x improvement / 98.29% decrease** in time taken by using Set Intersection using sketches
-over Join & GroupBy With Distinct Count. 😎
+Thats a **6x improvement / 83% decrease** in time taken by using Set Intersection using sketches
+over Join & GroupBy With Approx Distinct Count. 😎
 
 #### Error % with respect to Distinct Count:
 ```
@@ -225,6 +225,6 @@ Effect of ['Nominal Entries'](https://datasketches.apache.org/docs/Theta/ThetaEr
 
 1. Set Intersection using sketches is faster than the traditional Join & GroupBy! with tolerable error %.
 2. We can tune dataSketces by changing the 'nominal entries' parameter to get the desired accuracy.
-2. We achieved a **98% reduction / 58x improvement** in time taken.
+2. We achieved a **83% reduction / 6x improvement** in time taken, taking approx_distinct_count as the baseline.
 3. Less Time taken = Less Cost $$ 💰$$
 4. 100 million records join with 1 Billion records is Big data, but we ran it on my local mac machine in 99s 😎, so y not **duckdb** 🦆?
