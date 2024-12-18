@@ -225,5 +225,5 @@ Effect of ['Nominal Entries'](https://datasketches.apache.org/docs/Theta/ThetaEr
 
 1. Set Intersection using sketches is faster than the traditional Join & GroupBy! with tolerable error %.
 2. We can tune dataSketces by changing the 'nominal entries' parameter to get the desired accuracy.
-2. We achieved a **83% reduction / 6x improvement** in time taken, taking approx_distinct_count as the baseline.
-3. Less Time taken = Less Cost $$ 💰$$
+3. We achieved a **83% reduction / 6x improvement** in time taken, taking approx_distinct_count as the baseline.
+4. Less Time taken = Less Cost $$ 💰$$
