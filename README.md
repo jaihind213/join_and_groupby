@@ -163,8 +163,8 @@ sh run.sh org.jag.UsingSetIntersection /Users/vishnuch/work/gitcode/join_and_gro
 | Approach                                  | Time Sec | Notes                                |
 |-------------------------------------------|----------|--------------------------------------|
 | Join & GroupBy With Distinct Count        | 5797     | Accurate, but slower                 |
-| Join & GroupBy With Approx Distinct Count |  617     | Faster, ~ 15% error which is big     |
-| Set Intersection using sketches           |   99     | Fastest, ~ 3.9% error, is tolerable! |
+| Join & GroupBy With Approx Distinct Count |  617     | Faster, ~ 15 % error which is big    |
+| Set Intersection using sketches           |   99     | Fastest,~ 3.9 % error,is tolerable!  |
 +-------------------------------------------+----------+--------------------------------------+
 ```
 Thats a **58x improvement/98.29% decrease** in time taken by using Set Intersection using sketches
