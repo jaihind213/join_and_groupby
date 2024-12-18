@@ -162,12 +162,12 @@ sh run.sh org.jag.UsingSetIntersection /Users/vishnuch/work/gitcode/join_and_gro
 +-------------------------------------------+----------+--------------------------------------+
 | Approach                                  | Time Sec | Notes                                |
 |-------------------------------------------|----------|--------------------------------------|
-| Join & GroupBy With Distinct Count        | 5797     | Accurate, but slower                 |
-| Join & GroupBy With Approx Distinct Count |  617     | Faster, ~ 15 % error which is big    |
-| Set Intersection using sketches           |   99     | Fastest,~ 3.9 % error,is tolerable!  |
+| Join & GroupBy With Distinct Count        | 5797 |   | Accurate, but slower                 |
+| Join & GroupBy With Approx Distinct Count |  617 |   | Faster, ~ 15 % error which is big    |
+| Set Intersection using sketches           |   99 v   | Fastest,~ 3.9 % error,is tolerable!  |
 +-------------------------------------------+----------+--------------------------------------+
 ```
-Thats a **58x improvement/98.29% decrease** in time taken by using Set Intersection using sketches
+Thats a **58x improvement / 98.29% decrease** in time taken by using Set Intersection using sketches
 over Join & GroupBy With Distinct Count. 😎
 
 #### Error % with respect to Distinct Count:
@@ -212,11 +212,11 @@ For Set Intersection using sketches (nominal_entries=16384)
 Effect of ['Nominal Entries'](https://datasketches.apache.org/docs/Theta/ThetaErrorTable.html) parameter on Time Taken when using Data Sketches
 ```
 +-------------------------------------------------+
-| Nominal Entries | Time Sec | Notes              |
-|-------------------------------------------------|
-| 4096            | 88       | max error is 8.5%  |
-| 8192            | 89       | max error is 6.2%  |
-| 16384           | 99       | max error is 3.9%  |
+| Nominal Entries | Time Sec | Notes              |      
+|-------------------------------------------------|     |
+| 4096            | 88       | max error is 8.5%  |     |
+| 8192            | 89       | max error is 6.2%  |     |
+| 16384           | 99       | max error is 3.9%  |     v
 +-------------------------------------------------+
 
 ```
@@ -225,6 +225,6 @@ Effect of ['Nominal Entries'](https://datasketches.apache.org/docs/Theta/ThetaEr
 
 1. Set Intersection using sketches is faster than the traditional Join & GroupBy! with tolerable error %.
 2. We can tune dataSketces by changing the 'nominal entries' parameter to get the desired accuracy.
-2. We achieved a **98% reduction/58x improvement** in time taken.
+2. We achieved a **98% reduction / 58x improvement** in time taken.
 3. Less Time taken = Less Cost $$ 💰$$
 4. 100 million records join with 1 Billion records is Big data, but we ran it on my local mac machine in 99s 😎, so y not **duckdb** 🦆?
