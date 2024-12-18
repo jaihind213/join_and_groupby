@@ -227,4 +227,4 @@ Effect of ['Nominal Entries'](https://datasketches.apache.org/docs/Theta/ThetaEr
 2. We can tune dataSketces by changing the 'nominal entries' parameter to get the desired accuracy.
 2. We achieved a **98% reduction/58x improvement** in time taken.
 3. Less Time taken = Less Cost $$ 💰$$
-4. 100 million records join with 1 Billion records is Big data, but we ran it on my local mac machine in 99s 😎, so y not **duckdb** ??
+4. 100 million records join with 1 Billion records is Big data, but we ran it on my local mac machine in 99s 😎, so y not **duckdb** 🦆?
