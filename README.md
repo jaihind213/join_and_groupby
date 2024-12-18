@@ -159,13 +159,13 @@ sh run.sh org.jag.UsingSetIntersection /Users/vishnuch/work/gitcode/join_and_gro
 
 ### Results
 ```
-+-------------------------------------------+---------------+--------------------------------------+
-| Approach                                  | TimeTaken Sec | Notes                                |
-|-------------------------------------------|---------------|--------------------------------------|
-| Join & GroupBy With Distinct Count        | 5797          | Accurate, but slower                 |
-| Join & GroupBy With Approx Distinct Count |  617          | Faster, ~ 15% error which is big     |
-| Set Intersection using sketches           |   99          | Fastest, ~ 3.9% error, is tolerable! |
-+-------------------------------------------+-----------------+------------------------------------+
++-------------------------------------------+----------+--------------------------------------+
+| Approach                                  | Time Sec | Notes                                |
+|-------------------------------------------|----------|--------------------------------------|
+| Join & GroupBy With Distinct Count        | 5797     | Accurate, but slower                 |
+| Join & GroupBy With Approx Distinct Count |  617     | Faster, ~ 15% error which is big     |
+| Set Intersection using sketches           |   99     | Fastest, ~ 3.9% error, is tolerable! |
++-------------------------------------------+----------+--------------------------------------+
 ```
 Thats a **58x improvement/98.29% decrease** in time taken by using Set Intersection using sketches
 over Join & GroupBy With Distinct Count. 😎
@@ -211,13 +211,13 @@ For Set Intersection using sketches (nominal_entries=16384)
 ```
 Effect of ['Nominal Entries'](https://datasketches.apache.org/docs/Theta/ThetaErrorTable.html) parameter on Time Taken when using Data Sketches
 ```
-+------------------------------------------------------+
-| Nominal Entries | TimeTaken Sec | Notes              |
-|------------------------------------------------------|
-| 4096            | 88            | max error is 8.5%  |
-| 8192            | 89            | max error is 6.2%  |
-| 16384           | 99            | max error is 3.9%  |
-+-------------------------------------------+----------+
++-------------------------------------------------+
+| Nominal Entries | Time Sec | Notes              |
+|-------------------------------------------------|
+| 4096            | 88       | max error is 8.5%  |
+| 8192            | 89       | max error is 6.2%  |
+| 16384           | 99       | max error is 3.9%  |
++-------------------------------------------------+
 
 ```
 
