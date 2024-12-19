@@ -127,8 +127,8 @@ Gym ∩ Shanghai = 1
 We generated people and generated for each person random locations/interests.
 
 * Number of people = 100 million.
-* Number of rows in Location Dataset = 100 million.
-* Number of rows in Interest Dataset = 1000 million.
+* Number of rows in Location Dataset = 100 million (its person vs list of locations, i.e. non-exploded table).
+* Number of rows in Interest Dataset = 1Bil = 100 million * 10. (its person vs interest i.e. exploded table)
 
 Test was conducted on Mac m1 with Xms=10g, Xmx=10g, and 8 cores - Spark Local mode.
 
