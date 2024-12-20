@@ -1,9 +1,9 @@
 # join_and_groupby
-Using Apache Spark - we aim to Optimise a (join of 2 datasets, followed by groupBy).  
+Using Apache Spark - we aim to Optimise a (join of 2 datasets, followed by groupBy to get Distinct count).  
 This job is a fairly common pattern in Data Engineering/Analytics.
 
 ## Problem Statement
-We have 2 datasets, `df1` and `df2`. We want to join them on a common key, and then group by other keys.
+We have 2 datasets, `df1` and `df2`. We want to join them on a common key, and then group by other keys to get Distinct count.
 In our case, the common is key is PersonId aka PID. 
 
 `df1` has PID and list of Locations, and `df2` has PID and Interest.
