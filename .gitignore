@@ -1,7 +1,10 @@
 # Compiled class file
 *.class
-
+target/
 # Log file
+data/
+comparison_sets_result/
+.idea/
 *.log
 
 # BlueJ files

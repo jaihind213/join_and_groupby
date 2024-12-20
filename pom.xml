@@ -1,0 +1,202 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.example</groupId>
+  <artifactId>join_and_groupby</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>join_and_groupby</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <spark.version>3.4.0</spark.version>
+    <scala.version>2.13.10</scala.version>
+  </properties>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-sql_2.13</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.datasketches</groupId>
+      <artifactId>datasketches-java</artifactId>
+      <version>6.0.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-core_2.13</artifactId>
+      <version>${spark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.scala-lang</groupId>
+      <artifactId>scala-library</artifactId>
+      <!--      https://github.com/scala/bug/issues/12419-->
+      <version>${scala.version}</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.17.0</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-avro -->
+
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.20.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.20.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.13.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.14.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>3.3.4</version> <!-- Use the version of Hadoop that matches your environment -->
+    </dependency>
+
+    <dependency>
+      <groupId>net.agkn</groupId>
+      <artifactId>hll</artifactId>
+      <version>1.6.0</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>8</source>
+          <target>17</target>
+          <compilerArgs>
+            <arg>--add-opens</arg>
+            <arg>java.base/jdk.internal.ref=ALL-UNNAMED</arg>
+            <arg>--add-opens</arg>
+            <arg>java.base/sun.nio.ch=ALL-UNNAMED</arg>
+            <arg>--add-exports</arg>
+            <arg>java.base/sun.nio.ch=ALL-UNNAMED</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <!--        <version>3.0.0-M5</version>-->
+        <configuration>
+          <argLine>
+            --add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED
+            --add-exports=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED
+            --add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED
+            --add-opens java.base/java.lang=ALL-UNNAMED
+            --illegal-access=permit
+            --add-opens
+            java.base/java.lang=ALL-UNNAMED
+            --add-opens
+            java.base/sun.nio.ch=ALL-UNNAMED
+            --add-opens
+            jdk.management/com.sun.management.internal=ALL-UNNAMED
+            --add-exports
+            java.naming/com.sun.jndi.ldap=ALL-UNNAMED
+            --add-opens
+            java.naming/com.sun.jndi.ldap=ALL-UNNAMED
+            --add-opens=java.base/sun.util.calendar=ALL-UNNAMED
+            --add-opens
+            java.base/java.lang.invoke=ALL-UNNAMED
+            --add-opens
+            java.base/java.nio=ALL-UNNAMED
+            --add-opens
+            java.base/java.util=ALL-UNNAMED
+            -XX:+UseG1GC
+            -Duser.timezone=GMT
+          </argLine>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.2</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>jar-with-dependencies</shadedClassifierName>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>**/Log4j2Plugins.dat</exclude>
+                  </excludes>
+                </filter>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+              <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+              </transformers>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>2.43.0</version>
+        <executions>
+          <execution>
+            <id>spotless</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <java>
+            <googleJavaFormat>
+              <version>1.11.0</version>
+            </googleJavaFormat>
+            <!-- Enable or disable formatting annotations -->
+            <!-- <formatAnnotations>true</formatAnnotations> -->
+          </java>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
