@@ -2,19 +2,20 @@ package org.jag;
 
 import static org.apache.spark.sql.functions.*;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.SparkSession;
 
-public class ErrorCalculator {
+public class ErrorCalculatorHLLvsDistinct {
   public static void main(String[] args) throws Exception {
 
     String dataset1Path = args[0];
     String dataset2Path = args[1];
 
-    System.out.println("Dataset 1 Path: " + dataset1Path);
-    System.out.println("Dataset 2 Path: " + dataset2Path);
+    System.out.println("hll data Path: " + dataset1Path);
+    System.out.println("Distinct data Path: " + dataset2Path);
     Thread.sleep(10000);
 
     SparkSession spark =
@@ -22,11 +23,24 @@ public class ErrorCalculator {
             .appName("Percentage Difference Calculation")
             .master("local[*]") // Use appropriate cluster configuration
             .getOrCreate();
+    final int logK = System.getenv("LOG_K") != null ? Integer.parseInt(System.getenv("LOG_K")) : 13;
+    System.out.println("Using  logK: " + logK);
+    final String sketchLib =
+        StringUtils.isBlank(System.getenv("SKETCH_LIBRARY"))
+            ? "data_sketches"
+            : System.getenv("SKETCH_LIBRARY");
+    final int registerWidth =
+        System.getenv("REGISTER_WIDTH") != null
+            ? Integer.parseInt(System.getenv("REGISTER_WIDTH"))
+            : 4;
+    System.out.println("Using  registerWidth: " + registerWidth);
+    UsingJoinAndGroupByHLL.registerUdfs(spark, logK, registerWidth, 2131319, sketchLib);
 
     // Load the datasets
     Dataset<Row> df1 =
-        spark.read().option("header", "true").option("inferSchema", "true").csv(dataset1Path);
+        spark.read().option("header", "true").option("inferSchema", "true").parquet(dataset1Path);
 
+    df1 = df1.withColumn("count", callUDF("estimate_hll", col("hll_bytes"))).drop("hll_bytes");
     String[] columns = df1.columns();
     String countColumnName = "";
     for (String column : columns) {
@@ -40,7 +54,7 @@ public class ErrorCalculator {
     df1 = df1.withColumnRenamed("location", ("location1"));
 
     Dataset<Row> df2 =
-        spark.read().option("header", "true").option("inferSchema", "true").csv(dataset2Path);
+        spark.read().option("header", "true").option("inferSchema", "true").parquet(dataset2Path);
 
     columns = df2.columns();
     countColumnName = "";
@@ -106,4 +120,15 @@ public class ErrorCalculator {
     // Stop Spark session
     spark.stop();
   }
+  /**
+   * Dataset 1 Path: data/results/UsingJoinAndGroupBy_hll_data_sketches
+   *
+   * <p>Dataset 2 Path: data/results/UsingJoinAndGroupBy_distinct_count
+   *
+   * <p>Minimum Percentage Difference: 0.0009692197469855968
+   *
+   * <p>Maximum Percentage Difference: 2.7848066786385672
+   *
+   * <p>Average Percentage Difference: 0.7741187183072222
+   */
 }

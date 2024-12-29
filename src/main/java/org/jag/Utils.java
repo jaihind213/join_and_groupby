@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Random;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.spark.sql.AnalysisException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,5 +44,19 @@ public class Utils {
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  public static boolean IsPathNotFound(Throwable e) {
+    // org.apache.spark.sql.AnalysisException: [PATH_NOT_FOUND] Path does not exist:
+
+    while (e != null) {
+      if (e instanceof AnalysisException
+          && StringUtils.isNotBlank(e.getMessage())
+          && e.getMessage().toLowerCase().contains("path_not_found")) {
+        return true;
+      }
+      e = e.getCause();
+    }
+    return false;
   }
 }

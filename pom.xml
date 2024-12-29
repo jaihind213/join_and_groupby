@@ -34,7 +34,21 @@
       <artifactId>spark-core_2.13</artifactId>
       <version>${spark.version}</version>
     </dependency>
-
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-azure</artifactId>
+      <version>3.3.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-azure-datalake</artifactId>
+      <version>3.3.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>3.3.6</version>
+    </dependency>
     <dependency>
       <groupId>org.scala-lang</groupId>
       <artifactId>scala-library</artifactId>
@@ -74,10 +88,11 @@
       <artifactId>jackson-databind</artifactId>
       <version>2.14.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client -->
     <dependency>
       <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-common</artifactId>
-      <version>3.3.4</version> <!-- Use the version of Hadoop that matches your environment -->
+      <artifactId>hadoop-client</artifactId>
+      <version>3.4.1</version>
     </dependency>
 
     <dependency>
