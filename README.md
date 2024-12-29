@@ -7,7 +7,11 @@ Some people are also interested in generating HyperLogLog (HLL) instead of getti
 * Pattern 1 - join & GroupBy Get Unique Count
 * Pattern 2 - join & GroupBy Generate HLL
 
-here is my : [Medium Post](https://medium.com/@HumanDimension2DataEngineering/spark-optimize-100mil-x-1-bil-join-groupby-distinct-count-using-sketches-d832dc32c7a7)
+here are Medium posts :
+
+[Medium Post1](https://medium.com/@HumanDimension2DataEngineering/spark-optimize-100mil-x-1-bil-join-groupby-distinct-count-using-sketches-d832dc32c7a7)
+
+[Medium Post2 ](https://medium.com/@HumanDimension2DataEngineering/spark-optimize-100mil-x-1-bil-join-groupby-generate-hll-056e66a90361)
 
 Advantage of  HLL:
 -----------------
