@@ -49,7 +49,7 @@ public class UsingSetIntersection {
           .write()
           .mode(SaveMode.Overwrite)
           .option("header", "true")
-          .csv(outputPath + "/UsingSetIntersection/");
+          .parquet(outputPath + "/UsingSetIntersection_nominal_entries_" + nominalEntries + "/");
       final long end = System.currentTimeMillis();
       System.out.println("Time taken: " + (end - start) + "ms");
 

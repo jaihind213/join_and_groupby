@@ -38,7 +38,7 @@ public class UsingJoinAndGroupBy {
       Dataset<Row> interests = spark.read().parquet(peopleInterestPath); // .repartition(8);
       Dataset<Row> locations = spark.read().parquet(peopleLocationPath); // .repartition(8);
       Dataset<Row> result = joinAndGroupBy(spark, interests, locations, useApproxDistinctCount);
-      result.write().mode("overwrite").option("header", "true").csv(resultPath);
+      result.write().mode("overwrite").option("header", "true").parquet(resultPath);
       final long end = System.currentTimeMillis();
       System.out.println("Time taken Ms: " + (end - start));
 
